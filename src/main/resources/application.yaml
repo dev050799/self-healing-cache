@@ -1,3 +1,45 @@
+server:
+  port: ${CACHE_PORT:8080}
+
 spring:
   application:
     name: self-healing-cache
+  threads:
+    virtual:
+      enabled: true
+
+cache:
+  node-id: ${CACHE_NODE_ID:}
+  host: ${CACHE_HOST:localhost}
+  port: ${CACHE_PORT:8080}
+  seeds: ${CACHE_SEEDS:localhost:8080}
+  ring:
+    vnodes-per-node: 128
+  replication:
+    factor: 3
+    consistency: ${CACHE_CONSISTENCY:EVENTUAL}
+    write-quorum: 2
+    read-quorum: 2
+  client:
+    connect-timeout-ms: 1000
+    request-timeout-ms: 2000
+    max-retries: 1
+  gossip:
+    period-ms: 1000
+    suspicion-timeout-ms: 10000
+    indirect_probe-count: 3
+  expiry:
+    sweep-period-ms: 1000
+  eviction:
+    policy: LRU
+    max-entries: 100000
+
+logging:
+  level:
+    com.dev.cache: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info, metrics
