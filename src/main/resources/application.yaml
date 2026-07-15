@@ -16,18 +16,18 @@ cache:
   ring:
     vnodes-per-node: 128
   replication:
-    factor: 3
+    factor: ${CACHE_RF:3}
     consistency: ${CACHE_CONSISTENCY:EVENTUAL}
     write-quorum: 2
     read-quorum: 2
   client:
-    connect-timeout-ms: 1000
-    request-timeout-ms: 2000
+    connect-timeout-ms: 300
+    request-timeout-ms: 500
     max-retries: 1
   gossip:
     period-ms: 1000
-    suspicion-timeout-ms: 10000
-    indirect_probe-count: 3
+    suspicion-timeout-ms: 5000
+    indirect_probe-count: 2
   expiry:
     sweep-period-ms: 1000
   eviction:
@@ -42,4 +42,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info, metrics
+        include: health,info,metrics

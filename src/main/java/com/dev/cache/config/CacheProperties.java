@@ -23,7 +23,7 @@ public class CacheProperties {
     private final Eviction eviction = new Eviction();
 
     public String resolvedNodeId() {
-        return nodeId != null ? nodeId : host + ":" + port;
+        return (nodeId == null || nodeId.isBlank()) ? host + ":" + port : nodeId;
     }
 
     @Data
@@ -41,16 +41,16 @@ public class CacheProperties {
 
     @Data
     public static class Client {
-        private int connectTimeoutMs = 1000;
-        private int requestTimeoutMs = 2000;
+        private int connectTimeoutMs = 300;
+        private int requestTimeoutMs = 500;
         private int maxRetries = 1;
     }
 
     @Data
     public static class Gossip {
         private int periodMs = 1000;
-        private int suspicionTimeoutMs = 10000;
-        private int indirectProbeCount = 3;
+        private int suspicionTimeoutMs = 5000;
+        private int indirectProbeCount = 2;
     }
 
     @Data
@@ -61,9 +61,9 @@ public class CacheProperties {
 
     @Data
     public static class Eviction {
-        public enum Policy {NONE, LRU}
-
         private Policy policy = Policy.LRU;
-        private int maxEntries = 100000;
+        private int maxEntries = 100_000;
+
+        public enum Policy {NONE, LRU}
     }
 }
