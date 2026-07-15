@@ -56,7 +56,6 @@ public class CacheProperties {
     @Data
     public static class Expiry {
         private int sweepPeriodMs = 1000;
-
     }
 
     @Data

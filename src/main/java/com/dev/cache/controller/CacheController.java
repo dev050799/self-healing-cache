@@ -3,6 +3,7 @@ package com.dev.cache.controller;
 import com.dev.cache.config.CacheProperties;
 import com.dev.cache.model.ConsistencyMode;
 import com.dev.cache.replication.ReplicationCoordinatorService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,8 @@ public class CacheController {
     public ResponseEntity<String> get(@PathVariable String key,
                                       @RequestParam(required = false) ConsistencyMode consistencyMode) {
         Optional<String> value = coordinator.get(key, mode(consistencyMode));
-        return value.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return value.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Key not found"));
     }
 
     @DeleteMapping("/{key}")
