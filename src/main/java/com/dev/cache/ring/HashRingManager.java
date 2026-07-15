@@ -9,27 +9,27 @@ import java.util.List;
 @Component
 public class HashRingManager {
 
-    private final CacheProperties properties;
-    private volatile HashRing hashRing;
+    private final CacheProperties props;
+    private volatile HashRing ring;
 
-    public HashRingManager(CacheProperties properties) {
-        this.properties = properties;
-        this.hashRing = new HashRing(List.of(), properties.getRing().getVnodesPerNode());
+    public HashRingManager(CacheProperties props) {
+        this.props = props;
+        this.ring = new HashRing(List.of(), props.getRing().getVnodesPerNode());
     }
 
     public void rebuild(Collection<String> aliveNodeIds) {
-        this.hashRing = new HashRing(aliveNodeIds, properties.getRing().getVnodesPerNode());
+        this.ring = new HashRing(aliveNodeIds, props.getRing().getVnodesPerNode());
     }
 
     public String primaryFor(String key) {
-        return hashRing.primaryFor(key);
+        return ring.primaryFor(key);
     }
 
     public List<String> replicaSet(String key) {
-        return hashRing.replicaSet(key, properties.getReplication().getFactor());
+        return ring.replicaSet(key, props.getReplication().getFactor());
     }
 
     public boolean isEmpty() {
-        return hashRing.isEmpty();
+        return ring.isEmpty();
     }
 }

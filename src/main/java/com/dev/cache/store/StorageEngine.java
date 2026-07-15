@@ -45,6 +45,10 @@ public class StorageEngine {
             }
             return existing;
         });
+        if (accepted.get()) {
+            eviction.recordAccess(key);
+            enforceEviction();
+        }
         return accepted.get();
     }
 
@@ -55,8 +59,8 @@ public class StorageEngine {
         return originOf(a).compareTo(originOf(b)) > 0;
     }
 
-    private String originOf(CacheEntry a) {
-        return a.originNodeId() == null ? "" : a.originNodeId();
+    private String originOf(CacheEntry e) {
+        return e.originNodeId() == null ? "" : e.originNodeId();
     }
 
     private void enforceEviction() {
