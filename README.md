@@ -1,6 +1,6 @@
 # self-healing-cache
 
-A distributed, self-healing key-value cache built with Spring Boot. Nodes form a peer-to-peer cluster using a SWIM-style gossip protocol, distribute keys via consistent hashing with virtual nodes, and replicate writes across a configurable replica set — with hinted handoff and read repair to recover automatically from transient node failures.
+A distributed, self-healing key-value cache built with Spring Boot. Nodes form a peer-to-peer cluster using a SWIM-style gossip protocol, distribute keys via consistent hashing with virtual nodes, and replicate writes across a configurable replica set — with hinted handoff and read repair to recover automatically from transient node failures. 
 
 ## Features
 
